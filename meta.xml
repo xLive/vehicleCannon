@@ -1,0 +1,49 @@
+<meta>
+    <info author="xLive" name="Vehicle Cannon" version="1.0" type="script" />
+    <oop>true</oop>
+
+    <script src="server.lua" type="server"/>
+    <script src="settings.lua" type="server"/>
+	<script src="client.lua" type="client"/>
+
+    <settings>
+        <setting name="*weapon" value="all"
+	    friendlyname="Weapons IDs"
+		accept="array-all"
+	    desc="Which weapons can players fire vehicles with?"
+	    />
+
+        <setting name="*canceldamage" value="true"
+	    friendlyname="Cancel bullets damage"
+		accept="true-false"
+	    desc="Cancel bullets damage?"
+	    />
+
+        <setting name="*maxvehicles" value="15"
+	    friendlyname="Max Vehicles"
+	    desc="Max vehicles count per player."
+	    />
+
+        <setting name="*destoryafter" value="50"
+	    friendlyname="Destory After"
+	    examples="50,30"
+	    desc="After how many seconds the vehicle will be removed?"
+	    />
+
+        <setting name="*vehiclespeed" value="2"
+	    friendlyname="Vehicle Speed"
+	    />
+
+        <setting name="*lockvehicle" value="true"
+	    friendlyname="Vehicle Lock"
+	    accept="true-false"
+	    desc="Can players enter the vehicles?"
+	    />
+
+        <setting name="*vehicleids" value="all"
+	    friendlyname="Vehicle IDs"
+	    accept="array-all"
+	    desc="What vehicle IDs will be created?"
+	    />
+    </settings>
+</meta>
