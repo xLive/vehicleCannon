@@ -1,11 +1,20 @@
 local vehicleData = {}
 local playerVehicles = {}
 
+addEventHandler("onResourceStart", resourceRoot,
+function ()
+	if tonumber (getServerConfigSetting("bullet_sync")) ~= 1 then
+		cancelEvent()
+		outputDebugString("Please enable bullet_sync in mtaserver.conf - https://wiki.mtasa.com/wiki/Server_mtaserver.conf#bullet_sync", 2)
+	end
+end)
+
 addEventHandler("onPlayerWeaponFire", root,
 	function(weapon, endX, endY, endZ, _, startX, startY, startZ)
 		if settings.weapon == "all" or isValueInTable(settings.weapon, weapon) then
 			local matrix = Matrix.create(source.position, Vector3(findRotation3D(startX, startY, startZ, endX, endY, endZ)))
 			local veh = Vehicle(settings.vehicleIds[math.random(#settings.vehicleIds)], matrix.position + matrix.forward * 4)
+			if not veh then return end -- for some unknown reason MTA does not create the vehicle in the first shot
 			veh:setColor(math.random(255), math.random(255), math.random(255))
 			veh.rotation = Vector3(findRotation3D(startX, startY, startZ, endX, endY, endZ))
 			veh:setVelocity(matrix.forward * settings.vehicleSpeed)
@@ -59,6 +68,16 @@ function()
 		end
 	end
 )
+
+addEventHandler("onVehicleStartEnter", resourceRoot,
+function()
+	if source.locked then
+		local vehicleType = source.vehicleType
+		if vehicleType == "Bike" or vehicleType == "BMX" or vehicleType == "Quad" or vehicleType == "Boat" then
+			cancelEvent()
+		end
+	end
+end)
 
 function findRotation3D(x1, y1, z1, x2, y2, z2)
 	local rotx = math.atan2(z2 - z1, getDistanceBetweenPoints2D(x2, y2, x1, y1))
